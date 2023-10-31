@@ -1,0 +1,111 @@
+---
+title: "Data Visualization in R"  # Set the document title
+author: "James Muguro"  # Set the author's name
+date: "2022-09-18"  # Set the document date
+output: 
+  html_document:  # Specify the output format as an HTML document
+    self_contained: true  # Embed external resources in the HTML document
+---
+
+```{r setup, include=FALSE}
+#Set up code chunk options
+knitr::opts_chunk$set(echo = TRUE) #Enable code chunk echo for displaying code and results
+```
+
+##### Loading our libraries and datasets
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(palmerpenguins)
+read_csv("F:/R_Analytics/hotel_bookings.csv")
+hotel_bookings <- read_csv("F:/R_Analytics/hotel_bookings.csv")
+```
+
+#### Relationship betwwen body mass & flipper length
+```{r}
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(mapping = aes(x=flipper_length_mm, y=body_mass_g, color=species))
+
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g, linetype=species))
+
+ggplot(data = penguins) +
+  geom_jitter(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+```
+
+### Bar Charts
+```{r}
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+```
+
+#### Facets
+
+```{r}
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color=species)) + 
+  facet_wrap(~species)
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = color, fill = cut)) + 
+  facet_wrap(~cut)
+
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color=species)) + 
+  facet_grid(sex~species)
+```
+
+
+### Hotel Bookings Visualizations
+```{r}
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel, fill = deposit_type))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~ deposit_type)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type~market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+```
+
+
+##### Saving visualizations
+
+```{r}
+ggsave("Diamonds Cut Precision.png")
+
+mindate <- min(hotel_bookings$arrival_date_year)
+maxdate <- max(hotel_bookings$arrival_date_year)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) +
+  theme(axis.text.x = element_text(angle = 45)) +
+  labs(title="Comparison of market segments by hotel type for hotel bookings",
+       caption=paste0("Data from: ", mindate, " to ", maxdate),
+       x="Market Segment",
+       y="Number of Bookings")
+ggsave('hotel_booking_chart.png',
+       width=16,
+       height=8)
+```
+
