@@ -1,8 +1,8 @@
-# R Data Analysis Basics
+# Data Analysis Project with R
 
 ## Description
 
-This project, "R Data Analysis Basics," focuses on fundamental concepts of data analysis in the R programming language. It covers essential topics, including data cleaning, manipulation, transformation, data loading, dataframes, and data visualization. Whether you're new to data analysis or looking to strengthen your R skills, this project provides practical examples and exercises to help you learn and apply these concepts effectively.
+This project focuses on fundamental concepts of data analysis in the R programming language. It covers essential topics, including data cleaning, manipulation, transformation, data loading, dataframes, and data visualization. Whether you're new to data analysis or looking to strengthen your R skills, this project provides practical examples and exercises to help you learn and apply these concepts effectively.
 
 ## Project Contents
 
@@ -30,5 +30,3 @@ The project is organized into separate R scripts, with each script dedicated to 
 ## Acknowledgments
 
 This project was made possible with the support of the R community and various online resources that have contributed valuable insights and guidance for data analysis in R.
-
-
