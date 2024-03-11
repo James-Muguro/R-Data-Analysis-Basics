@@ -342,3 +342,260 @@ read_csv("F:/R_Analytics/automobile_data.csv")
 
 # Create a data frame 'automobile_data' from the imported dataset
 automobile_data <- read_csv("F:/R_Analytics/automobile_data.csv")
+
+
+
+#PART 3: DATA VISUALIZATION
+
+# Set up code chunk options
+knitr::opts_chunk$set(echo = TRUE) # Enable code chunk echo for displaying code and results
+
+# Load libraries and datasets
+library(tidyverse)
+library(ggplot2)
+library(palmerpenguins)
+hotel_bookings <- read_csv("F:/R_Analytics/hotel_bookings.csv")
+
+# Relationship between body mass & flipper length
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species))
+
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g, linetype = species))
+
+ggplot(data = penguins) +
+  geom_jitter(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+
+# Bar Charts
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+# Facets
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) + 
+  facet_wrap(~species)
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = color, fill = cut)) + 
+  facet_wrap(~cut)
+
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) + 
+  facet_grid(sex ~ species)
+
+# Hotel Bookings Visualizations
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel, fill = deposit_type))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~deposit_type ~ market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+# Saving visualizations
+ggsave("Diamonds_Cut_Precision.png")
+
+mindate <- min(hotel_bookings$arrival_date_year)
+maxdate <- max(hotel_bookings$arrival_date_year)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~hotel) +
+  theme(axis.text.x = element_text(angle = 45)) +
+  labs(title = "Comparison of market segments by hotel type for hotel bookings",
+       caption = paste0("Data from: ", mindate, " to ", maxdate),
+       x = "Market Segment",
+       y = "Number of Bookings")
+ggsave('hotel_booking_chart.png', width = 16, height = 8)
+
+
+# Setting up the environment
+# Notes: Setting up my R environment by loading the 'tidyverse' and 'palmerpenguins' packages.
+library(tidyverse)
+library(palmerpenguins)
+
+# Previewing our data
+# Here we will have a preview of our penguins dataset
+data(penguins)
+View(penguins)
+
+# Visualizations
+# Here we go through a series of visualizations
+
+# Flipper length and body mass in purple
+# Here we plot flipper length against body mass
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g), color = "Purple")
+
+# Flipper and body mass by species
+# Here we plot flipper length against body mass and look at the breakdown by species
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(shape = species))
+
+# Flipper length and body mass by species and sex
+# Here we plot flipper length against body mass and look at the breakdown by species and sex
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) + 
+  geom_point(aes(color = species, shape = species)) +
+  facet_wrap(~sex)
+
+
+# Relationship between body mass and flipper length with smoothed lines and color encoding
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g)) +
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species))
+
+# Relationship between body mass and flipper length with smoothed lines and linetype encoding
+ggplot(data = penguins) + 
+  geom_smooth(mapping = aes(x = flipper_length_mm, y = body_mass_g, linetype = species))
+
+# Scatter plot with jitter for body mass and flipper length
+ggplot(data = penguins) +
+  geom_jitter(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+
+# Bar chart for the relationship between cut and clarity in diamonds
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+# Facets for body mass and flipper length by species
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) + 
+  facet_wrap(~ species)
+
+# Bar chart for color and cut in diamonds with facets for cut
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = color, fill = cut) ) +
+  facet_wrap(~ cut)
+
+# Scatter plot for body mass and flipper length by species with facets for sex and species
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) + 
+  facet_grid(sex ~ species)
+
+# Various data visualizations for hotel bookings
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel, fill = deposit_type))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~ deposit_type)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~ deposit_type) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~ market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = distribution_channel)) +
+  facet_wrap(~ deposit_type ~ market_segment) +
+  theme(axis.text.x = element_text(angle = 45))
+
+# Save visualizations as image files
+ggsave("Diamonds_Cut_Precision.png")
+
+mindate <- min(hotel_bookings$arrival_date_year)
+maxdate <- max(hotel_bookings$arrival_date_year)
+
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = market_segment)) +
+  facet_wrap(~ hotel) +
+  theme(axis.text.x = element_text(angle = 45)) +
+  labs(title = "Comparison of market segments by hotel type for hotel bookings",
+       caption = paste0("Data from: ", mindate, " to ", maxdate),
+       x = "Market Segment",
+       y = "Number of Bookings")
+
+ggsave('hotel_booking_chart.png',
+       width = 16,
+       height = 8)
+
+
+# Relationship between body mass and flipper length scatter plot for penguins dataset
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g))
+
+# Display the first few rows and column names of the hotel_bookings dataset
+head(hotel_bookings)
+colnames(hotel_bookings)
+
+# Scatter plot for the relationship between lead_time and children in hotel bookings
+ggplot(data = hotel_bookings) +
+  geom_point(mapping = aes(x = lead_time, y = children))
+
+# Scatter plot for the relationship between stays_in_week_nights and children in hotel bookings
+ggplot(data = hotel_bookings) +
+  geom_point(mapping = aes(x = stays_in_week_nights, y = children))
+
+# Relationship between body mass and flipper length scatter plot for penguins dataset with color encoding
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species))
+
+# Relationship between body mass and flipper length scatter plot for penguins dataset with shape encoding
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, shape = species))
+
+# Relationship between body mass and flipper length scatter plot for penguins dataset with color and shape encoding
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, shape = species, color = species))
+
+# Relationship between body mass and flipper length scatter plot for penguins dataset with a specified color
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g), color = "Purple")
+
+# Bar plot for the relationship between hotel and market_segment in hotel bookings
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel, fill = market_segment))
+
+# Bar plot for the relationship between hotel and market_segment in hotel bookings with facet_wrap
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel)) +
+  facet_wrap(~ market_segment)
+
+# Filter the hotel_bookings dataset for 'City Hotel' and 'Online TA' market_segment
+onlineta_city_hotels <- filter(hotel_bookings, hotel == "City Hotel" & market_segment == "Online TA")
+View(onlineta_city_hotels)
+
+# Scatter plot for the relationship between lead_time and children in the filtered dataset
+ggplot(data = onlineta_city_hotels) +
+  geom_point(mapping = aes(x = lead_time, y = children))
+
+# Labeling your visualizations
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  labs(title = "Palmer Penguins: Body Mass vs. Flipper Length", 
+       subtitle = "Sample of Three Penguin Species",
+       caption = "Data Collected by Dr. Kristen Gorman")
+
+# Annotations
+ggplot(data = penguins) + 
+  geom_point(mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  labs(title = "Palmer Penguins: Body Mass vs. Flipper Length", 
+       subtitle = "Sample of Three Penguin Species",
+       caption = "Data Collected by Dr. Kristen Gorman") +
+  annotate("text", x = 220, y = 3500, label = "The Gentoos are the largest", 
+           color = "purple", fontface = "bold", size = 4.5, angle = 25)
